@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* ─── Color System ─── */
+  --color-background: #07070e;
+  --color-foreground: #eeeef5;
+  --color-card: #0f0f1a;
+  --color-card-hover: #161628;
+  --color-border: #1e1e35;
+  --color-border-hover: #2e2e50;
+  --color-primary: #8b5cf6;
+  --color-primary-hover: #7c3aed;
+  --color-primary-glow: rgba(139, 92, 246, 0.25);
+  --color-secondary: #151525;
+  --color-muted: #6b7280;
+  --color-muted-foreground: #9ca3af;
+  --color-accent: #f472b6;
+  --color-accent-soft: rgba(244, 114, 182, 0.15);
+  --color-success: #34d399;
+  --color-success-soft: rgba(52, 211, 153, 0.15);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* ─── Base ─── */
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* ─── Subtle noise background ─── */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(139, 92, 246, 0.12), transparent),
+    radial-gradient(ellipse 60% 40% at 80% 100%, rgba(244, 114, 182, 0.06), transparent);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-hover);
+}
+
+/* ─── Custom animations ─── */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* ─── Glassmorphism utility ─── */
+.glass {
+  background: rgba(15, 15, 26, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
