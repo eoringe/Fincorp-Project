@@ -239,11 +239,15 @@ npm run dev
 ```
 ├── backend/
 │   ├── app.py                 # Flask API server (validation + Supabase writes)
+│   ├── Dockerfile             # Python 3.13 + gunicorn production container
+│   ├── .dockerignore
 │   ├── requirements.txt       # Python deps: flask, flask-cors, requests, dotenv
 │   ├── .env                   # SUPABASE_URL, SUPABASE_SERVICE_KEY (secret)
 │   └── venv/                  # Python virtual environment (gitignored)
 │
 ├── frontend/
+│   ├── Dockerfile             # Multi-stage Node 20 build → standalone production
+│   ├── .dockerignore
 │   ├── src/
 │   │   ├── app/
 │   │   │   ├── layout.tsx     # Root layout: fonts, metadata, HTML shell
@@ -269,6 +273,8 @@ npm run dev
 ├── supabase/
 │   └── setup.sql              # DB migration: table, RLS, realtime, functions
 │
+├── docker-compose.yml         # Run both services locally with one command
+├── .env                       # Root env vars for docker-compose (gitignored)
 ├── .gitignore
 └── README.md
 ```
@@ -281,3 +287,98 @@ npm run dev
 - The **publishable/anon key** is used client-side and is safe because RLS policies restrict access
 - User identity is a random UUID via `crypto.randomUUID()` stored in localStorage (per assignment spec — no auth)
 - For production: add rate limiting, CAPTCHA, authentication, and scoped RLS policies
+
+---
+
+## 🐳 Docker
+
+Both services are containerized with multi-stage builds for production-optimized images.
+
+### Run locally with Docker Compose
+
+```bash
+# Build and start both services
+docker-compose up --build
+
+# Frontend: http://localhost:3000
+# Backend:  http://localhost:5000
+```
+
+Environment variables are loaded from the root `.env` file (not committed to git).
+
+### Individual containers
+
+```bash
+# Backend only
+docker build -t idea-board-api ./backend
+docker run -p 5000:5000 --env-file ./backend/.env idea-board-api
+
+# Frontend only (pass build args for NEXT_PUBLIC_* vars)
+docker build -t idea-board-frontend ./frontend \
+  --build-arg NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co \
+  --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key \
+  --build-arg NEXT_PUBLIC_FLASK_API_URL=http://localhost:5000
+docker run -p 3000:3000 idea-board-frontend
+```
+
+---
+
+## 🚂 Railway Deployment
+
+### Step 1: Create a new Railway project
+
+1. Go to [railway.app](https://railway.app) → **New Project** → **Deploy from GitHub repo**
+2. Select `eoringe/Fincorp-Project`
+
+### Step 2: Create the Backend service
+
+1. In your Railway project, click **New Service** → **GitHub Repo** → select `Fincorp-Project`
+2. In service **Settings**:
+   - **Root Directory**: `backend`
+   - **Builder**: `Dockerfile`
+3. Add **Environment Variables**:
+   ```
+   SUPABASE_URL=https://dnxrtenkuqfdynacolvk.supabase.co
+   SUPABASE_SERVICE_KEY=<your-service-key>
+   FLASK_DEBUG=false
+   ```
+4. Railway auto-assigns PORT — gunicorn uses it automatically
+5. After deploy, copy the **public URL** (e.g., `https://fincorp-backend-production.up.railway.app`)
+
+### Step 3: Create the Frontend service
+
+1. Click **New Service** → **GitHub Repo** → select `Fincorp-Project` again
+2. In service **Settings**:
+   - **Root Directory**: `frontend`
+   - **Builder**: `Dockerfile`
+3. Add **Environment Variables** (these become build args via the Dockerfile):
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=https://dnxrtenkuqfdynacolvk.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=<your-publishable-key>
+   NEXT_PUBLIC_FLASK_API_URL=<backend-railway-url-from-step-2>
+   ```
+
+### Step 4: Verify
+
+- Open the frontend Railway URL in two browser tabs
+- Submit an idea in one tab, see it appear in both
+- The presence indicator should show 2 viewers
+
+### Architecture on Railway
+
+```
+┌─────────────────────────┐     ┌─────────────────────────┐
+│  Railway Service:       │     │  Railway Service:        │
+│  Frontend (Next.js)     │────▶│  Backend (Flask)         │
+│  Port: auto-assigned    │     │  Port: auto-assigned     │
+│  Dockerfile: frontend/  │     │  Dockerfile: backend/    │
+└───────────┬─────────────┘     └───────────┬──────────────┘
+            │                               │
+            │  WebSocket (Realtime)          │  REST (writes)
+            ▼                               ▼
+        ┌───────────────────────────────────────┐
+        │         Supabase (Cloud)              │
+        │  PostgreSQL + Realtime + Presence      │
+        └───────────────────────────────────────┘
+```
+
