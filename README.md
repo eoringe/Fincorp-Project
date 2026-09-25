@@ -2,6 +2,8 @@
 
 A real-time collaborative idea board built for virtual hackathon presentations. Audience members can submit ideas and questions, upvote them in real time, and see who else is currently viewing the board — all updating instantly across every connected browser.
 
+**Live Demo**: [Idea Board — Live Collaborative Hackathon](https://fincorp-frontend-production.up.railway.app/)
+
 ![Next.js](https://img.shields.io/badge/Next.js_16-black?style=flat&logo=next.js) ![Flask](https://img.shields.io/badge/Flask-000000?style=flat&logo=flask) ![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=flat&logo=supabase&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white) ![Tailwind](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat&logo=tailwindcss&logoColor=white)
 
 ---
@@ -400,46 +402,12 @@ docker run -p 3000:3000 idea-board-frontend
 
 ---
 
-## Railway Deployment
+## Live Deployment
 
-### Step 1: Create a new Railway project
+The application is deployed live on Railway:
 
-1. Go to [railway.app](https://railway.app) → **New Project** → **Deploy from GitHub repo**
-2. Select `eoringe/Fincorp-Project`
-
-### Step 2: Create the Backend service
-
-1. In your Railway project, click **New Service** → **GitHub Repo** → select `Fincorp-Project`
-2. In service **Settings**:
-   - **Root Directory**: `backend`
-   - **Builder**: `Dockerfile`
-3. Add **Environment Variables**:
-   ```
-   SUPABASE_URL=https://dnxrtenkuqfdynacolvk.supabase.co
-   SUPABASE_SERVICE_KEY=<your-service-key>
-   FLASK_DEBUG=false
-   ```
-4. Railway auto-assigns PORT — gunicorn uses it automatically
-5. After deploy, copy the **public URL** (e.g., `https://fincorp-backend-production.up.railway.app`)
-
-### Step 3: Create the Frontend service
-
-1. Click **New Service** → **GitHub Repo** → select `Fincorp-Project` again
-2. In service **Settings**:
-   - **Root Directory**: `frontend`
-   - **Builder**: `Dockerfile`
-3. Add **Environment Variables** (these become build args via the Dockerfile):
-   ```
-   NEXT_PUBLIC_SUPABASE_URL=https://dnxrtenkuqfdynacolvk.supabase.co
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=<your-publishable-key>
-   NEXT_PUBLIC_FLASK_API_URL=<backend-railway-url-from-step-2>
-   ```
-
-### Step 4: Verify
-
-- Open the frontend Railway URL in two browser tabs
-- Submit an idea in one tab, see it appear in both
-- The presence indicator should show 2 viewers
+- **Live Application**: [Idea Board — Live Collaborative Hackathon](https://fincorp-frontend-production.up.railway.app/)
+- **Backend API**: `https://fincorp-backend-production.up.railway.app`
 
 ### Architecture on Railway
 
@@ -458,4 +426,5 @@ docker run -p 3000:3000 idea-board-frontend
         │  PostgreSQL + Realtime + Presence      │
         └───────────────────────────────────────┘
 ```
+
 
