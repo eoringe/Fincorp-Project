@@ -90,7 +90,7 @@ export default function IdeaFeed({ ideas, loading, error }: IdeaFeedProps) {
   if (error) {
     return (
       <div className="flex flex-col items-center justify-center py-16 gap-3 rounded-2xl bg-red-500/10 border border-red-500/20 text-center px-4">
-        <p className="text-red-400 text-sm font-medium">⚠ {error}</p>
+        <p className="text-red-400 text-sm font-medium">{error}</p>
         <p className="text-muted text-xs">Verify your Supabase configuration</p>
       </div>
     );

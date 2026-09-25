@@ -7,10 +7,10 @@ import { Send, Loader2, Sparkles, CornerDownLeft, AlertCircle } from "lucide-rea
 const FLASK_API = process.env.NEXT_PUBLIC_FLASK_API_URL;
 
 const PROMPT_CHIPS = [
-  { label: "💡 Idea", prefix: "💡 [Idea] " },
-  { label: "❓ Question", prefix: "❓ [Question] " },
-  { label: "⚡ Feature", prefix: "⚡ [Feature] " },
-  { label: "🎯 Feedback", prefix: "🎯 [Feedback] " },
+  { label: "Idea", prefix: "[Idea] " },
+  { label: "Question", prefix: "[Question] " },
+  { label: "Feature", prefix: "[Feature] " },
+  { label: "Feedback", prefix: "[Feedback] " },
 ];
 
 /**
@@ -146,7 +146,7 @@ export default function IdeaForm() {
 
               <span className="hidden sm:inline-flex items-center gap-1 text-[11px] text-muted/60 border-l border-white/[0.08] pl-2">
                 <CornerDownLeft className="w-3 h-3" />
-                <span>⌘+Enter</span>
+                <span>Ctrl+Enter</span>
               </span>
             </div>
 

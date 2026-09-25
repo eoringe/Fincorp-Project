@@ -1,4 +1,4 @@
-# 🧠 Live Collaborative Idea Board
+# Live Collaborative Idea Board
 
 A real-time collaborative idea board built for virtual hackathon presentations. Audience members can submit ideas and questions, upvote them in real time, and see who else is currently viewing the board — all updating instantly across every connected browser.
 
@@ -6,7 +6,7 @@ A real-time collaborative idea board built for virtual hackathon presentations. 
 
 ---
 
-## 📐 Architecture Overview
+## Architecture Overview
 
 The application follows a **split responsibility** pattern where writes are validated server-side while reads leverage direct real-time connections:
 
@@ -31,7 +31,7 @@ The application follows a **split responsibility** pattern where writes are vali
 
 ---
 
-## 🔄 Sequence Diagrams
+## Sequence Diagrams
 
 ### 1. Idea Submission & Real-Time Broadcast Flow
 
@@ -139,7 +139,7 @@ sequenceDiagram
 
 ---
 
-## 🗄️ Database Schema
+## Database Schema
 
 ```sql
 CREATE TABLE ideas (
@@ -154,7 +154,7 @@ Row Level Security is enabled with permissive policies (no auth per assignment r
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -193,7 +193,7 @@ Start the Flask server:
 
 ```bash
 python app.py
-# 🚀 Idea Board API running on http://localhost:5000
+# Idea Board API running on http://localhost:5000
 ```
 
 ### 3. Frontend (Next.js)
@@ -215,7 +215,7 @@ Start the development server:
 
 ```bash
 npm run dev
-# ▲ Next.js running on http://localhost:3000
+# Next.js running on http://localhost:3000
 ```
 
 ### 4. Open & Test
@@ -227,29 +227,29 @@ npm run dev
 
 ---
 
-## ✅ Features
+## Features
 
 ### Core Requirements
 
 | Feature | Status | Details |
 |---------|--------|---------|
-| Submit ideas via Flask | ✅ | `POST /api/ideas` with validation |
-| Input validation | ✅ | Non-empty, ≤200 characters, whitespace trimming |
-| Live feed | ✅ | Supabase Realtime subscriptions (INSERT/UPDATE/DELETE) |
-| Upvoting | ✅ | Atomic increment via PostgreSQL function |
-| Presence indicator | ✅ | Shows active user count via Supabase Presence |
+| Submit ideas via Flask | Complete | `POST /api/ideas` with validation |
+| Input validation | Complete | Non-empty, ≤200 characters, whitespace trimming |
+| Live feed | Complete | Supabase Realtime subscriptions (INSERT/UPDATE/DELETE) |
+| Upvoting | Complete | Atomic increment via PostgreSQL function |
+| Presence indicator | Complete | Shows active user count via Supabase Presence |
 
 ### Bonus Features
 
 | Feature | Status | Details |
 |---------|--------|---------|
-| Display names | ✅ | Stored in localStorage, visible in Presence tracker |
-| Animations | ✅ | Framer Motion: card enter/exit, upvote count flip, layout reordering |
-| Real-time sorting | ✅ | Ideas dynamically sort by most upvoted |
+| Display names | Complete | Stored in localStorage, visible in Presence tracker |
+| Animations | Complete | Framer Motion: card enter/exit, upvote count flip, layout reordering |
+| Real-time sorting | Complete | Ideas dynamically sort by most upvoted |
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Technology | Role |
 |-------|-----------|------|
@@ -264,7 +264,7 @@ npm run dev
 
 ---
 
-## 📡 API Endpoints (Flask)
+## API Endpoints (Flask)
 
 ### `POST /api/ideas` — Create Idea
 
@@ -311,7 +311,7 @@ npm run dev
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 ├── backend/
@@ -358,7 +358,7 @@ npm run dev
 
 ---
 
-## 🔐 Security Notes
+## Security Notes
 
 - The **service_role key** is only used server-side in Flask (never exposed to the browser)
 - The **publishable/anon key** is used client-side and is safe because RLS policies restrict access
@@ -367,7 +367,7 @@ npm run dev
 
 ---
 
-## 🐳 Docker
+## Docker
 
 Both services are containerized with multi-stage builds for production-optimized images.
 
@@ -400,7 +400,7 @@ docker run -p 3000:3000 idea-board-frontend
 
 ---
 
-## 🚂 Railway Deployment
+## Railway Deployment
 
 ### Step 1: Create a new Railway project
 
