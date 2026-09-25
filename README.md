@@ -62,6 +62,114 @@ The application follows a **split responsibility** pattern where writes are vali
 
 ---
 
+## 🔄 Sequence Diagrams
+
+### 1. Idea Submission & Real-Time Broadcast Flow
+
+This diagram illustrates how an audience member submits an idea through the Flask backend for validation, which persists to Supabase and triggers an instant WebSocket broadcast to all connected clients.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor UserA as User A (Browser)
+    participant Flask as Flask Backend API
+    participant DB as Supabase PostgreSQL
+    participant Realtime as Supabase Realtime Engine
+    actor UserB as User B (Browser)
+
+    UserA->>Flask: POST /api/ideas { text }
+    Note over Flask: Validates: text present, non-empty, <= 200 chars
+    alt Validation Fails
+        Flask-->>UserA: 400 Bad Request { error }
+    else Validation Succeeds
+        Flask->>DB: POST /rest/v1/ideas (service_role key)
+        DB-->>Flask: 201 Created (idea row)
+        Flask-->>UserA: 201 Created { id, text, upvotes, created_at }
+        DB->>Realtime: Logical Replication (WAL event)
+        par WebSocket Broadcast
+            Realtime-->>UserA: WS Broadcast: INSERT (new idea)
+            Realtime-->>UserB: WS Broadcast: INSERT (new idea)
+        end
+        Note over UserA,UserB: UI updates instantly with Framer Motion enter animation
+    end
+```
+
+---
+
+### 2. Atomic Upvote Flow & Real-Time Feed Re-sorting
+
+This diagram demonstrates atomic upvoting preventing race conditions and the subsequent broadcast that triggers dynamic sorting across all clients.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor UserB as User B (Browser)
+    participant Flask as Flask Backend API
+    participant DB as Supabase PostgreSQL
+    participant Realtime as Supabase Realtime Engine
+    actor UserA as User A (Browser)
+
+    UserB->>Flask: POST /api/ideas/:id/upvote
+    Flask->>DB: POST /rest/v1/rpc/increment_upvotes { idea_id }
+    Note over DB: Atomic update: SET upvotes = upvotes + 1
+    DB-->>Flask: 200 OK
+    Flask-->>UserB: 200 OK { success: true }
+    DB->>Realtime: Logical Replication (WAL event)
+    par WebSocket Broadcast
+        Realtime-->>UserB: WS Broadcast: UPDATE (new upvote count)
+        Realtime-->>UserA: WS Broadcast: UPDATE (new upvote count)
+    end
+    Note over UserA,UserB: State updates & ideas dynamically re-order by top upvotes
+```
+
+---
+
+### 3. Initial Page Load & Real-Time Subscription Flow
+
+This diagram shows the initial bootstrap sequence when a user navigates to the application: direct read from Supabase REST API followed by WebSocket connection.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Client as Browser Client
+    participant Frontend as Next.js Web App
+    participant DB as Supabase REST API
+    participant Realtime as Supabase Realtime Engine
+
+    Client->>Frontend: Navigate to /
+    Frontend-->>Client: Serve UI Components & Client Scripts
+    Client->>DB: GET /rest/v1/ideas?select=*&order=upvotes.desc (anon key)
+    DB-->>Client: 200 OK [List of ideas]
+    Note over Client: Populate local state & render feed
+    Client->>Realtime: Connect WebSocket channel('ideas-realtime')
+    Realtime-->>Client: Subscription confirmed (listening to INSERT, UPDATE, DELETE)
+```
+
+---
+
+### 4. User Presence & Active Viewer Tracking
+
+This diagram shows how users synchronize online presence and display names using Supabase Realtime Presence without hitting PostgreSQL.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor UserA as User A (Browser)
+    participant Realtime as Supabase Realtime (Presence)
+    actor UserB as User B (Browser)
+
+    UserA->>Realtime: Subscribe channel('hackathon-room')
+    UserA->>Realtime: track({ user_id, display_name, online_at })
+    Realtime-->>UserB: WS Presence Sync / Join (User A joined)
+    Realtime-->>UserA: WS Presence Sync (Active users snapshot)
+    Note over UserA,UserB: Active viewer badge increments and updates live
+    UserA->>Realtime: Tab closed / Disconnect
+    Realtime-->>UserB: WS Presence Leave (User A left)
+    Note over UserB: Active viewer badge decrements automatically
+```
+
+---
+
 ## 🗄️ Database Schema
 
 ```sql
