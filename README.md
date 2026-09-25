@@ -10,39 +10,8 @@ A real-time collaborative idea board built for virtual hackathon presentations. 
 
 The application follows a **split responsibility** pattern where writes are validated server-side while reads leverage direct real-time connections:
 
-```
-                          ┌──────────────────────────────────────────────────┐
-                          │              Supabase (Cloud)                    │
-                          │                                                  │
-                          │  ┌──────────────┐  ┌────────────────────────┐   │
-         REST Insert/RPC  │  │  PostgreSQL   │  │  Realtime Engine       │   │
-       ┌─────────────────▶│  │              │──▶│  (WebSocket Server)    │   │
-       │                  │  │  ideas table  │  │                        │   │
-       │                  │  │  RLS policies │  │  • Broadcasts INSERT   │   │
-       │                  │  │  increment_   │  │  • Broadcasts UPDATE   │   │
-       │                  │  │  upvotes()    │  │  • Broadcasts DELETE   │   │
-       │                  │  └──────────────┘  └───────────┬────────────┘   │
-       │                  │                                 │                │
-       │                  │                    ┌────────────┴───────────┐   │
-       │                  │                    │  Presence Engine        │   │
-       │                  │                    │  (Track active users)   │   │
-       │                  │                    └────────────┬───────────┘   │
-       │                  └─────────────────────────────────┼──────────────┘
-       │                                                    │
-       │                                                    │ WebSocket
-       │                                                    │ (Live push)
-       │                                                    │
-┌──────┴──────────┐     HTTP POST              ┌────────────▼───────────┐
-│  Flask Backend  │◀───────────────────────────│   Next.js Frontend     │
-│  (Port 5000)    │                            │   (Port 3000)          │
-│                 │     JSON Response          │                        │
-│  • Validation   │───────────────────────────▶│  • Idea submission UI  │
-│  • POST /ideas  │                            │  • Live feed           │
-│  • POST /upvote │                            │  • Presence indicator  │
-│  • Error msgs   │                            │  • Display name editor │
-└─────────────────┘                            │  • Framer Motion anims │
-                                               └────────────────────────┘
-```
+<img width="1024" height="789" alt="image" src="https://github.com/user-attachments/assets/3f5437f2-4e20-46a1-86e7-1f15b25c6542" />
+
 
 ### Data Flow Patterns
 
