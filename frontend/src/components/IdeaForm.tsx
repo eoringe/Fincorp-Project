@@ -84,7 +84,7 @@ export default function IdeaForm() {
   }
 
   return (
-    <div className="w-full flex-1 flex flex-col min-h-0">
+    <div className="w-full flex flex-col lg:flex-1 lg:min-h-0">
       {/* Starter Chips */}
       <div className="flex items-center gap-1.5 mb-2.5 overflow-x-auto pb-1 no-scrollbar shrink-0">
         <span className="text-[11px] font-medium text-muted uppercase tracking-wider shrink-0 mr-1 flex items-center gap-1">
@@ -103,8 +103,8 @@ export default function IdeaForm() {
         ))}
       </div>
 
-      <form onSubmit={handleSubmit} className="relative group flex-1 flex flex-col min-h-0">
-        <div className="relative rounded-2xl bg-card border border-border group-focus-within:border-primary/50 group-focus-within:shadow-lg group-focus-within:shadow-primary-glow/20 transition-all duration-300 overflow-hidden flex-1 flex flex-col min-h-0">
+      <form onSubmit={handleSubmit} className="relative group flex flex-col lg:flex-1 lg:min-h-0">
+        <div className="relative rounded-2xl bg-card border border-border group-focus-within:border-primary/50 group-focus-within:shadow-lg group-focus-within:shadow-primary-glow/20 transition-all duration-300 overflow-hidden flex flex-col lg:flex-1 lg:min-h-0">
           <textarea
             ref={textareaRef}
             id="idea-input"
@@ -112,8 +112,8 @@ export default function IdeaForm() {
             onChange={(e) => setText(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Share an idea, question, or feature proposal..."
-            rows={2}
-            className="w-full bg-transparent p-3 pb-12 text-foreground placeholder:text-muted/70 resize-none focus:outline-none text-sm leading-relaxed flex-1 min-h-[70px]"
+            rows={3}
+            className="w-full bg-transparent p-3 pb-12 text-foreground placeholder:text-muted/70 resize-none focus:outline-none text-sm leading-relaxed min-h-[90px] lg:min-h-[70px] lg:flex-1"
           />
 
           {/* Bottom Toolbar inside textarea box */}

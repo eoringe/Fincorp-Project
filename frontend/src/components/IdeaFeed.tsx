@@ -97,7 +97,7 @@ export default function IdeaFeed({ ideas, loading, error }: IdeaFeedProps) {
   }
 
   return (
-    <div className="flex flex-col h-full min-h-0 relative">
+    <div className="flex flex-col lg:h-full lg:min-h-0 relative">
       {/* ── Feed Control Toolbar (Search & Tabs) ── */}
       <div className="shrink-0 mb-2 space-y-1.5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
@@ -182,7 +182,7 @@ export default function IdeaFeed({ ideas, loading, error }: IdeaFeedProps) {
       <div
         ref={scrollContainerRef}
         onScroll={handleScroll}
-        className="flex-1 min-h-0 overflow-y-auto custom-scrollbar pr-1 space-y-2 pb-1.5"
+        className="flex-1 min-h-[380px] sm:min-h-[420px] lg:min-h-0 max-h-[520px] lg:max-h-none overflow-y-auto custom-scrollbar pr-1 space-y-2 pb-1.5"
       >
         {ideas.length === 0 ? (
           <motion.div

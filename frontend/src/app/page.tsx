@@ -64,22 +64,22 @@ export default function Home() {
   }
 
   return (
-    <div className="h-screen w-screen overflow-hidden flex flex-col bg-background text-foreground selection:bg-primary/20 selection:text-primary-hover">
+    <div className="min-h-screen lg:h-screen w-full flex flex-col bg-background text-foreground selection:bg-primary/20 selection:text-primary-hover lg:overflow-hidden">
       {/* ── Top Navigation Bar ── */}
       <header className="shrink-0 h-14 z-50 glass-header border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between gap-4">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-full flex items-center justify-between gap-2 sm:gap-4">
           {/* Logo & Live Status */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="flex items-center gap-2.5"
+              className="flex items-center gap-2 sm:gap-2.5 min-w-0"
             >
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-primary via-primary-hover to-accent flex items-center justify-center shadow-md shadow-primary-glow/50">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-primary via-primary-hover to-accent flex items-center justify-center shadow-md shadow-primary-glow/50 shrink-0">
                 <Sparkles className="w-4 h-4 text-white" />
               </div>
-              <div>
-                <h1 className="text-sm sm:text-base font-bold tracking-tight bg-gradient-to-r from-primary via-primary-hover to-accent bg-clip-text text-transparent">
+              <div className="min-w-0">
+                <h1 className="text-sm sm:text-base font-bold tracking-tight bg-gradient-to-r from-primary via-primary-hover to-accent bg-clip-text text-transparent truncate">
                   Idea Board
                 </h1>
                 <p className="text-[10px] text-muted -mt-0.5 hidden sm:block">
@@ -89,14 +89,14 @@ export default function Home() {
             </motion.div>
 
             {/* Live broadcast pill */}
-            <span className="hidden md:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-[11px] font-semibold">
+            <span className="hidden md:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-[11px] font-semibold shrink-0">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
               STAGE LIVE
             </span>
           </div>
 
           {/* User Controls: Display Name + Presence */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             <DisplayNameEditor
               currentName={displayName}
               onSave={handleNameChange}
@@ -112,12 +112,12 @@ export default function Home() {
       </header>
 
       {/* ── Main Dashboard Workspace ── */}
-      <main className="flex-1 min-h-0 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col overflow-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 h-full min-h-0 items-stretch">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-3.5 flex flex-col lg:min-h-0 lg:overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-5 lg:h-full lg:min-h-0 items-stretch">
           {/* ══════════════════════════════════════════════════════
               LEFT COLUMN: Live Audience Data & Submission (col 1-5)
              ══════════════════════════════════════════════════════ */}
-          <div className="lg:col-span-5 flex flex-col gap-3.5 h-full min-h-0">
+          <div className="lg:col-span-5 flex flex-col gap-3 sm:gap-3.5 lg:h-full lg:min-h-0">
             {/* Live Session Summary Banner (Live Audience Data) */}
             <div className="p-3.5 sm:p-4 rounded-2xl glass-card relative overflow-hidden shrink-0">
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-2xl pointer-events-none -mr-10 -mt-10" />
@@ -174,7 +174,7 @@ export default function Home() {
             </div>
 
             {/* Idea Composer Card (Create Submission) */}
-            <div className="p-3.5 sm:p-4 rounded-2xl glass-card flex-1 flex flex-col min-h-0">
+            <div className="p-3.5 sm:p-4 rounded-2xl glass-card flex flex-col lg:flex-1 lg:min-h-0">
               <div className="flex items-center justify-between mb-2 shrink-0">
                 <h3 className="text-xs sm:text-sm font-semibold text-foreground flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5 text-primary" />
@@ -197,8 +197,8 @@ export default function Home() {
           {/* ══════════════════════════════════════════════════════
               RIGHT COLUMN: Controlled Overflow Live Feed (col 6-12)
              ══════════════════════════════════════════════════════ */}
-          <div className="lg:col-span-7 flex flex-col min-h-0 h-full">
-            <div className="p-3.5 sm:p-4 rounded-2xl glass-card flex flex-col min-h-0 h-full">
+          <div className="lg:col-span-7 flex flex-col lg:h-full lg:min-h-0 min-h-[460px]">
+            <div className="p-3.5 sm:p-4 rounded-2xl glass-card flex flex-col lg:h-full lg:min-h-0 min-h-[460px]">
               <div className="flex items-center justify-between pb-2.5 mb-2 border-b border-slate-200 shrink-0">
                 <div className="flex items-center gap-2">
                   <h2 className="text-sm sm:text-base font-bold tracking-tight text-foreground">
@@ -222,10 +222,10 @@ export default function Home() {
       </main>
 
       {/* ── Footer ── */}
-      <footer className="shrink-0 border-t border-slate-200/80 py-2 bg-white/60 text-center text-xs text-muted">
+      <footer className="shrink-0 border-t border-slate-200/80 py-2.5 sm:py-2 bg-white/60 text-center text-xs text-muted mt-auto">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-1">
-          <span>Hackathon Collaborative Board &mdash; Powered by Supabase Realtime &amp; Flask</span>
-          <span className="text-[11px] text-muted/60">Atomic upvoting &bull; PostgreSQL Logical Replication</span>
+          <span className="text-[11px] sm:text-xs">Hackathon Collaborative Board &mdash; Powered by Supabase Realtime &amp; Flask</span>
+          <span className="text-[10px] sm:text-[11px] text-muted/60">Atomic upvoting &bull; PostgreSQL Logical Replication</span>
         </div>
       </footer>
     </div>

@@ -53,7 +53,7 @@ export default function DisplayNameEditor({
               maxLength={20}
               placeholder="Your name"
               autoFocus
-              className="w-28 sm:w-36 bg-transparent px-2.5 py-1 text-xs text-foreground placeholder:text-muted focus:outline-none"
+              className="w-24 sm:w-36 bg-transparent px-2 sm:px-2.5 py-1 text-xs text-foreground placeholder:text-muted focus:outline-none"
             />
             <button
               type="submit"
@@ -81,15 +81,15 @@ export default function DisplayNameEditor({
               setName(currentName);
               setIsEditing(true);
             }}
-            className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-white hover:bg-slate-50 border border-slate-200 hover:border-primary/30 transition-all duration-150 group cursor-pointer"
+            className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-2.5 py-1 rounded-full bg-white hover:bg-slate-50 border border-slate-200 hover:border-primary/30 transition-all duration-150 group cursor-pointer"
             aria-label="Change display name"
           >
             {/* Avatar Circle */}
-            <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-primary to-accent flex items-center justify-center text-[10px] font-bold text-white shadow-xs">
+            <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-primary to-accent flex items-center justify-center text-[10px] font-bold text-white shadow-xs shrink-0">
               {initial}
             </div>
 
-            <span className="text-xs text-muted-foreground group-hover:text-foreground font-medium max-w-[120px] truncate">
+            <span className="text-xs text-muted-foreground group-hover:text-foreground font-medium max-w-[85px] sm:max-w-[120px] truncate">
               {currentName || "Set Name"}
             </span>
 
