@@ -411,20 +411,7 @@ The application is deployed live on Railway:
 
 ### Architecture on Railway
 
-```
-┌─────────────────────────┐     ┌─────────────────────────┐
-│  Railway Service:       │     │  Railway Service:        │
-│  Frontend (Next.js)     │────▶│  Backend (Flask)         │
-│  Port: auto-assigned    │     │  Port: auto-assigned     │
-│  Dockerfile: frontend/  │     │  Dockerfile: backend/    │
-└───────────┬─────────────┘     └───────────┬──────────────┘
-            │                               │
-            │  WebSocket (Realtime)          │  REST (writes)
-            ▼                               ▼
-        ┌───────────────────────────────────────┐
-        │         Supabase (Cloud)              │
-        │  PostgreSQL + Realtime + Presence      │
-        └───────────────────────────────────────┘
-```
+<img width="1024" height="455" alt="image" src="https://github.com/user-attachments/assets/28db2168-3551-4fad-8b31-1b55dc423e69" />
+
 
 
