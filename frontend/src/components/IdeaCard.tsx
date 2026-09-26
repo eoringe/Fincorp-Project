@@ -103,10 +103,10 @@ export default function IdeaCard({ idea, index }: IdeaCardProps) {
           whileTap={hasVoted ? {} : { scale: 0.88 }}
           className={`relative flex flex-col items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-xl transition-all duration-200 ${
             hasVoted
-              ? "bg-teal-500/15 text-teal-400 border border-teal-500/30 cursor-not-allowed"
+              ? "bg-teal-500/15 text-teal-600 border border-teal-500/30 cursor-not-allowed"
               : isTop1
-              ? "bg-primary/25 text-primary border border-primary/40 shadow-md shadow-primary-glow hover:bg-primary/35 cursor-pointer"
-              : "bg-white/[0.04] text-muted-foreground border border-white/[0.06] hover:bg-primary/20 hover:text-primary hover:border-primary/30 cursor-pointer"
+              ? "bg-primary/15 text-primary border border-primary/30 shadow-md shadow-primary-glow hover:bg-primary/25 cursor-pointer"
+              : "bg-slate-100 text-slate-500 border border-slate-200 hover:bg-primary/10 hover:text-primary hover:border-primary/30 cursor-pointer"
           } disabled:opacity-70`}
           aria-label={
             hasVoted ? "Already upvoted" : `Upvote idea: ${idea.text}`
@@ -166,7 +166,7 @@ export default function IdeaCard({ idea, index }: IdeaCardProps) {
         </div>
 
         {/* Footer info row */}
-        <div className="flex items-center justify-between gap-3 mt-3 pt-2.5 border-t border-white/[0.04]">
+        <div className="flex items-center justify-between gap-3 mt-3 pt-2.5 border-t border-slate-100">
           <div className="flex items-center gap-1.5 text-muted text-xs">
             <Clock className="w-3.5 h-3.5 text-muted/70" />
             <span>{timeAgo(idea.created_at)}</span>

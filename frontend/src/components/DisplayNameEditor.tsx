@@ -44,7 +44,7 @@ export default function DisplayNameEditor({
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             onSubmit={handleSave}
-            className="flex items-center gap-1.5 p-1 rounded-full bg-white/[0.06] border border-primary/40 shadow-md shadow-primary-glow/20"
+            className="flex items-center gap-1.5 p-1 rounded-full bg-white border border-primary/40 shadow-md shadow-primary-glow/10"
           >
             <input
               type="text"
@@ -65,7 +65,7 @@ export default function DisplayNameEditor({
             <button
               type="button"
               onClick={handleCancel}
-              className="p-1 rounded-full bg-white/[0.05] text-muted hover:text-red-400 transition-colors cursor-pointer"
+              className="p-1 rounded-full bg-slate-100 text-muted hover:text-red-500 transition-colors cursor-pointer"
               aria-label="Cancel"
             >
               <X className="w-3.5 h-3.5" />
@@ -81,7 +81,7 @@ export default function DisplayNameEditor({
               setName(currentName);
               setIsEditing(true);
             }}
-            className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] transition-all duration-150 group cursor-pointer"
+            className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-white hover:bg-slate-50 border border-slate-200 hover:border-primary/30 transition-all duration-150 group cursor-pointer"
             aria-label="Change display name"
           >
             {/* Avatar Circle */}

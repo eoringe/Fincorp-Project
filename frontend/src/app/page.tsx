@@ -64,9 +64,9 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground selection:bg-primary/30 selection:text-white">
+    <div className="min-h-screen flex flex-col bg-background text-foreground selection:bg-primary/20 selection:text-primary-hover">
       {/* ── Top Navigation Bar ── */}
-      <header className="sticky top-0 z-50 glass-header border-b border-white/[0.06]">
+      <header className="sticky top-0 z-50 glass-header border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-15 flex items-center justify-between gap-4">
           {/* Logo & Live Status */}
           <div className="flex items-center gap-3">
@@ -79,7 +79,7 @@ export default function Home() {
                 <Sparkles className="w-4 h-4 text-white" />
               </div>
               <div>
-                <h1 className="text-sm sm:text-base font-bold tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent">
+                <h1 className="text-sm sm:text-base font-bold tracking-tight bg-gradient-to-r from-primary via-primary-hover to-accent bg-clip-text text-transparent">
                   Idea Board
                 </h1>
                 <p className="text-[10px] text-muted -mt-0.5 hidden sm:block">
@@ -101,7 +101,7 @@ export default function Home() {
               currentName={displayName}
               onSave={handleNameChange}
             />
-            <div className="w-px h-4 bg-white/[0.08]" />
+            <div className="w-px h-4 bg-slate-300" />
             <PresenceIndicator
               activeUsers={activeUsers}
               count={count}
@@ -140,8 +140,8 @@ export default function Home() {
               </p>
 
               {/* Room Quick Stats Strip */}
-              <div className="grid grid-cols-3 gap-2 mt-4 pt-3.5 border-t border-white/[0.06]">
-                <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.04] text-center">
+              <div className="grid grid-cols-3 gap-2 mt-4 pt-3.5 border-t border-slate-200">
+                <div className="p-2 rounded-xl bg-slate-50 border border-slate-200 text-center">
                   <div className="flex items-center justify-center gap-1 text-[11px] text-muted mb-0.5">
                     <MessageSquare className="w-3 h-3" />
                     <span>Ideas</span>
@@ -151,7 +151,7 @@ export default function Home() {
                   </span>
                 </div>
 
-                <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.04] text-center">
+                <div className="p-2 rounded-xl bg-slate-50 border border-slate-200 text-center">
                   <div className="flex items-center justify-center gap-1 text-[11px] text-muted mb-0.5">
                     <Flame className="w-3 h-3 text-amber-400" />
                     <span>Upvotes</span>
@@ -161,7 +161,7 @@ export default function Home() {
                   </span>
                 </div>
 
-                <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.04] text-center">
+                <div className="p-2 rounded-xl bg-slate-50 border border-slate-200 text-center">
                   <div className="flex items-center justify-center gap-1 text-[11px] text-muted mb-0.5">
                     <Users className="w-3 h-3 text-emerald-400" />
                     <span>Viewers</span>
@@ -186,7 +186,7 @@ export default function Home() {
             </div>
 
             {/* Quick Tips Box */}
-            <div className="hidden sm:flex items-start gap-2.5 p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.04] text-xs text-muted">
+            <div className="hidden sm:flex items-start gap-2.5 p-3.5 rounded-xl bg-indigo-50/60 border border-indigo-100 text-xs text-muted">
               <HelpCircle className="w-4 h-4 text-primary/70 shrink-0 mt-0.5" />
               <span>
                 <strong>Pro tip:</strong> Ideas with the most upvotes automatically rise to the top of the feed for the judges and presenters to see.
@@ -199,7 +199,7 @@ export default function Home() {
              ══════════════════════════════════════════════════════ */}
           <div className="lg:col-span-7 flex flex-col min-h-0 h-full">
             <div className="p-4 sm:p-5 rounded-2xl glass-card flex flex-col min-h-0">
-              <div className="flex items-center justify-between pb-3 mb-2 border-b border-white/[0.06] shrink-0">
+              <div className="flex items-center justify-between pb-3 mb-2 border-b border-slate-200 shrink-0">
                 <div className="flex items-center gap-2">
                   <h2 className="text-base font-bold tracking-tight text-foreground">
                     Live Feed
@@ -222,7 +222,7 @@ export default function Home() {
       </main>
 
       {/* ── Footer ── */}
-      <footer className="border-t border-white/[0.04] py-3.5 bg-black/20 text-center text-xs text-muted">
+      <footer className="border-t border-slate-200 py-3.5 bg-white/60 text-center text-xs text-muted">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <span>Hackathon Collaborative Board &mdash; Powered by Supabase Realtime &amp; Flask</span>
           <span className="text-[11px] text-muted/60">Atomic upvoting &bull; PostgreSQL Logical Replication</span>

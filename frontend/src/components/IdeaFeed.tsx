@@ -102,7 +102,7 @@ export default function IdeaFeed({ ideas, loading, error }: IdeaFeedProps) {
       <div className="shrink-0 mb-3 space-y-2.5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
           {/* Filter Tabs */}
-          <div className="flex items-center gap-1 p-1 rounded-xl bg-white/[0.03] border border-white/[0.06] shrink-0">
+          <div className="flex items-center gap-1 p-1 rounded-xl bg-slate-100 border border-slate-200 shrink-0">
             <button
               onClick={() => setActiveFilter("trending")}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-150 cursor-pointer ${
@@ -148,7 +148,7 @@ export default function IdeaFeed({ ideas, loading, error }: IdeaFeedProps) {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search ideas..."
-              className="w-full bg-white/[0.03] border border-white/[0.06] rounded-xl pl-8 pr-7 py-1.5 text-xs text-foreground placeholder:text-muted/70 focus:outline-none focus:border-primary/50 transition-colors"
+              className="w-full bg-white border border-slate-200 rounded-xl pl-8 pr-7 py-1.5 text-xs text-foreground placeholder:text-muted/70 focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/10 transition-colors"
             />
             {searchQuery && (
               <button
@@ -206,7 +206,7 @@ export default function IdeaFeed({ ideas, loading, error }: IdeaFeedProps) {
             </div>
           </motion.div>
         ) : filteredIdeas.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 gap-3 rounded-2xl glass-card text-center px-4">
+          <div className="flex flex-col items-center justify-center py-16 gap-3 rounded-2xl bg-slate-50 border border-slate-200 text-center px-4">
             <Search className="w-8 h-8 text-muted/40" />
             <p className="text-foreground text-sm font-medium">
               No matching ideas found
