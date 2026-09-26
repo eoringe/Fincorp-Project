@@ -1,12 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import { ChevronUp, Clock, Copy, Check, Sparkles, Trophy } from "lucide-react";
+import { ChevronUp, Clock, Copy, Check, Trophy, CheckCheck } from "lucide-react";
 import type { Idea } from "@/lib/types";
 import { timeAgo } from "@/lib/utils";
 
 const FLASK_API = process.env.NEXT_PUBLIC_FLASK_API_URL;
+const STORAGE_KEY = "fincorp_upvoted_ideas";
+
+/** Returns the Set of idea IDs this browser has already upvoted. */
+function getUpvotedSet(): Set<string> {
+  if (typeof window === "undefined") return new Set();
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? new Set(JSON.parse(raw)) : new Set();
+  } catch {
+    return new Set();
+  }
+}
+
+/** Persists a newly-voted idea ID to localStorage. */
+function markUpvoted(ideaId: string): void {
+  try {
+    const upvoted = getUpvotedSet();
+    upvoted.add(ideaId);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([...upvoted]));
+  } catch {
+    // localStorage may be unavailable (private browsing, storage quota)
+  }
+}
 
 interface IdeaCardProps {
   idea: Idea;
@@ -16,25 +39,31 @@ interface IdeaCardProps {
 /**
  * Modern Idea Card with rank badges, spring physics upvoting,
  * copy-to-clipboard, and relative timestamps.
+ * Upvotes are deduplicated per browser via localStorage.
  */
 export default function IdeaCard({ idea, index }: IdeaCardProps) {
   const [isUpvoting, setIsUpvoting] = useState(false);
+  const [hasVoted, setHasVoted] = useState(() => getUpvotedSet().has(idea.id));
   const [copied, setCopied] = useState(false);
 
-  async function handleUpvote() {
-    if (isUpvoting) return;
+  const handleUpvote = useCallback(async () => {
+    if (isUpvoting || hasVoted) return;
     setIsUpvoting(true);
 
     try {
-      await fetch(`${FLASK_API}/api/ideas/${idea.id}/upvote`, {
+      const res = await fetch(`${FLASK_API}/api/ideas/${idea.id}/upvote`, {
         method: "POST",
       });
+      if (res.ok) {
+        markUpvoted(idea.id);
+        setHasVoted(true);
+      }
     } catch {
-      // Silently fail — realtime event will handle actual updates
+      // Silently fail — realtime will handle the actual count
     } finally {
       setIsUpvoting(false);
     }
-  }
+  }, [isUpvoting, hasVoted, idea.id]);
 
   function handleCopy() {
     navigator.clipboard.writeText(idea.text);
@@ -69,24 +98,33 @@ export default function IdeaCard({ idea, index }: IdeaCardProps) {
         <motion.button
           id={`upvote-${idea.id}`}
           onClick={handleUpvote}
-          disabled={isUpvoting}
-          whileHover={{ scale: 1.12 }}
-          whileTap={{ scale: 0.88 }}
-          className={`relative flex flex-col items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-xl transition-all duration-200 cursor-pointer ${
-            isTop1
-              ? "bg-primary/25 text-primary border border-primary/40 shadow-md shadow-primary-glow hover:bg-primary/35"
-              : "bg-white/[0.04] text-muted-foreground border border-white/[0.06] hover:bg-primary/20 hover:text-primary hover:border-primary/30"
-          } disabled:opacity-50`}
-          aria-label={`Upvote idea: ${idea.text}`}
+          disabled={isUpvoting || hasVoted}
+          whileHover={hasVoted ? {} : { scale: 1.12 }}
+          whileTap={hasVoted ? {} : { scale: 0.88 }}
+          className={`relative flex flex-col items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-xl transition-all duration-200 ${
+            hasVoted
+              ? "bg-teal-500/15 text-teal-400 border border-teal-500/30 cursor-not-allowed"
+              : isTop1
+              ? "bg-primary/25 text-primary border border-primary/40 shadow-md shadow-primary-glow hover:bg-primary/35 cursor-pointer"
+              : "bg-white/[0.04] text-muted-foreground border border-white/[0.06] hover:bg-primary/20 hover:text-primary hover:border-primary/30 cursor-pointer"
+          } disabled:opacity-70`}
+          aria-label={
+            hasVoted ? "Already upvoted" : `Upvote idea: ${idea.text}`
+          }
+          title={hasVoted ? "You already upvoted this idea" : "Upvote"}
         >
-          <ChevronUp className="w-5 h-5 -mb-0.5" />
+          {hasVoted ? (
+            <CheckCheck className="w-5 h-5 -mb-0.5 text-teal-400" />
+          ) : (
+            <ChevronUp className="w-5 h-5 -mb-0.5" />
+          )}
           <motion.span
             key={idea.upvotes}
             initial={{ scale: 1.4, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ type: "spring", stiffness: 500, damping: 22 }}
             className={`text-xs font-bold tabular-nums ${
-              isTop1 ? "text-primary" : "text-foreground"
+              hasVoted ? "text-teal-400" : isTop1 ? "text-primary" : "text-foreground"
             }`}
           >
             {idea.upvotes}
