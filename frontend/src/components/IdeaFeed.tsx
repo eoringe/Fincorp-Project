@@ -99,61 +99,61 @@ export default function IdeaFeed({ ideas, loading, error }: IdeaFeedProps) {
   return (
     <div className="flex flex-col h-full min-h-0 relative">
       {/* ── Feed Control Toolbar (Search & Tabs) ── */}
-      <div className="shrink-0 mb-3 space-y-2.5">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+      <div className="shrink-0 mb-2 space-y-1.5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           {/* Filter Tabs */}
-          <div className="flex items-center gap-1 p-1 rounded-xl bg-slate-100 border border-slate-200 shrink-0">
+          <div className="flex items-center gap-1 p-0.5 rounded-xl bg-slate-100 border border-slate-200 shrink-0">
             <button
               onClick={() => setActiveFilter("trending")}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-150 cursor-pointer ${
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium transition-all duration-150 cursor-pointer ${
                 activeFilter === "trending"
                   ? "bg-primary text-white shadow-xs shadow-primary-glow"
                   : "text-muted hover:text-foreground"
               }`}
             >
-              <Flame className="w-3.5 h-3.5" />
+              <Flame className="w-3 h-3" />
               <span>Trending</span>
             </button>
 
             <button
               onClick={() => setActiveFilter("newest")}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-150 cursor-pointer ${
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium transition-all duration-150 cursor-pointer ${
                 activeFilter === "newest"
                   ? "bg-primary text-white shadow-xs shadow-primary-glow"
                   : "text-muted hover:text-foreground"
               }`}
             >
-              <Clock className="w-3.5 h-3.5" />
+              <Clock className="w-3 h-3" />
               <span>Newest</span>
             </button>
 
             <button
               onClick={() => setActiveFilter("unvoted")}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-150 cursor-pointer ${
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium transition-all duration-150 cursor-pointer ${
                 activeFilter === "unvoted"
                   ? "bg-primary text-white shadow-xs shadow-primary-glow"
                   : "text-muted hover:text-foreground"
               }`}
             >
-              <Sparkles className="w-3.5 h-3.5" />
+              <Sparkles className="w-3 h-3" />
               <span>Needs Love</span>
             </button>
           </div>
 
           {/* Search Box */}
-          <div className="relative flex-1 sm:max-w-[220px]">
-            <Search className="w-3.5 h-3.5 text-muted absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <div className="relative flex-1 sm:max-w-[200px]">
+            <Search className="w-3 h-3 text-muted absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search ideas..."
-              className="w-full bg-white border border-slate-200 rounded-xl pl-8 pr-7 py-1.5 text-xs text-foreground placeholder:text-muted/70 focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/10 transition-colors"
+              className="w-full bg-white border border-slate-200 rounded-lg pl-7 pr-6 py-1 text-xs text-foreground placeholder:text-muted/70 focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/10 transition-colors"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted hover:text-foreground cursor-pointer"
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-muted hover:text-foreground cursor-pointer"
               >
                 <X className="w-3 h-3" />
               </button>
@@ -162,7 +162,7 @@ export default function IdeaFeed({ ideas, loading, error }: IdeaFeedProps) {
         </div>
 
         {/* Counter Summary */}
-        <div className="flex items-center justify-between text-xs text-muted px-1">
+        <div className="flex items-center justify-between text-[11px] text-muted px-1">
           <span>
             Showing{" "}
             <strong className="text-foreground font-semibold">
@@ -171,7 +171,7 @@ export default function IdeaFeed({ ideas, loading, error }: IdeaFeedProps) {
             of {ideas.length} {ideas.length === 1 ? "idea" : "ideas"}
           </span>
           {searchQuery && (
-            <span className="text-primary text-[11px]">
+            <span className="text-primary text-[10px]">
               Filtered by &ldquo;{searchQuery}&rdquo;
             </span>
           )}
@@ -182,7 +182,7 @@ export default function IdeaFeed({ ideas, loading, error }: IdeaFeedProps) {
       <div
         ref={scrollContainerRef}
         onScroll={handleScroll}
-        className="flex-1 min-h-0 overflow-y-auto custom-scrollbar pr-1 space-y-3 pb-4"
+        className="flex-1 min-h-0 overflow-y-auto custom-scrollbar pr-1 space-y-2 pb-1.5"
       >
         {ideas.length === 0 ? (
           <motion.div
