@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import { ChevronUp, Clock, Copy, Check, Trophy, CheckCheck } from "lucide-react";
+import { ChevronUp, Clock, Copy, Check, Trophy, CheckCheck, Flame, TrendingUp } from "lucide-react";
 import type { Idea } from "@/lib/types";
 import { timeAgo } from "@/lib/utils";
 
@@ -105,7 +105,7 @@ export default function IdeaCard({ idea, index }: IdeaCardProps) {
             hasVoted
               ? "bg-teal-500/15 text-teal-600 border border-teal-500/30 cursor-not-allowed"
               : isTop1
-              ? "bg-primary/15 text-primary border border-primary/30 shadow-xs shadow-primary-glow hover:bg-primary/25 cursor-pointer"
+              ? "bg-amber-500/15 text-amber-600 border border-amber-500/35 shadow-xs shadow-amber-500/20 hover:bg-amber-500/25 cursor-pointer"
               : "bg-slate-100 text-slate-500 border border-slate-200 hover:bg-primary/10 hover:text-primary hover:border-primary/30 cursor-pointer"
           } disabled:opacity-70`}
           aria-label={
@@ -116,7 +116,7 @@ export default function IdeaCard({ idea, index }: IdeaCardProps) {
           {hasVoted ? (
             <CheckCheck className="w-3.5 h-3.5 -mb-0.5 text-teal-500" />
           ) : (
-            <ChevronUp className="w-4 h-4 -mb-0.5" />
+            <ChevronUp className={`w-4 h-4 -mb-0.5 ${isTop1 ? "text-amber-600" : ""}`} />
           )}
           <motion.span
             key={idea.upvotes}
@@ -124,7 +124,7 @@ export default function IdeaCard({ idea, index }: IdeaCardProps) {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ type: "spring", stiffness: 500, damping: 22 }}
             className={`text-[11px] font-bold tabular-nums leading-none ${
-              hasVoted ? "text-teal-600" : isTop1 ? "text-primary" : "text-foreground"
+              hasVoted ? "text-teal-600" : isTop1 ? "text-amber-700" : "text-foreground"
             }`}
           >
             {idea.upvotes}
@@ -132,7 +132,7 @@ export default function IdeaCard({ idea, index }: IdeaCardProps) {
         </motion.button>
 
         {/* Small rank label below upvote */}
-        <span className="text-[9px] font-mono text-muted/60 mt-0.5">
+        <span className={`text-[9px] font-mono mt-0.5 ${isTop1 ? "text-amber-600 font-semibold" : "text-muted/60"}`}>
           #{index + 1}
         </span>
       </div>
@@ -144,18 +144,20 @@ export default function IdeaCard({ idea, index }: IdeaCardProps) {
           {(isTop1 || isTop2 || isTop3) && (
             <div className="flex items-center gap-1.5 mb-1 flex-wrap">
               {isTop1 && (
-                <span className="inline-flex items-center gap-1 bg-amber-500/15 border border-amber-500/30 text-amber-700 text-[10px] font-bold px-1.5 py-0.5 rounded-md shadow-xs">
-                  <Trophy className="w-2.5 h-2.5 text-amber-600" />
+                <span className="inline-flex items-center gap-1 bg-amber-100/90 border border-amber-300 text-amber-900 text-[10px] font-bold px-2 py-0.5 rounded-md shadow-xs">
+                  <Trophy className="w-2.5 h-2.5 text-amber-700" />
                   TOP IDEA
                 </span>
               )}
               {isTop2 && (
-                <span className="inline-flex items-center gap-1 bg-slate-200/80 border border-slate-300 text-slate-700 text-[10px] font-semibold px-1.5 py-0.5 rounded-md">
+                <span className="inline-flex items-center gap-1 bg-indigo-100/90 border border-indigo-200 text-indigo-800 text-[10px] font-bold px-2 py-0.5 rounded-md shadow-xs">
+                  <Flame className="w-2.5 h-2.5 text-indigo-600" />
                   #2 TRENDING
                 </span>
               )}
               {isTop3 && (
-                <span className="inline-flex items-center gap-1 bg-amber-600/15 border border-amber-600/30 text-amber-800 text-[10px] font-semibold px-1.5 py-0.5 rounded-md">
+                <span className="inline-flex items-center gap-1 bg-teal-100/90 border border-teal-300 text-teal-800 text-[10px] font-bold px-2 py-0.5 rounded-md shadow-xs">
+                  <TrendingUp className="w-2.5 h-2.5 text-teal-600" />
                   #3 TRENDING
                 </span>
               )}
