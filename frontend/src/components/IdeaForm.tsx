@@ -84,9 +84,9 @@ export default function IdeaForm() {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full flex-1 flex flex-col min-h-0">
       {/* Starter Chips */}
-      <div className="flex items-center gap-1.5 mb-2.5 overflow-x-auto pb-1 no-scrollbar">
+      <div className="flex items-center gap-1.5 mb-2.5 overflow-x-auto pb-1 no-scrollbar shrink-0">
         <span className="text-[11px] font-medium text-muted uppercase tracking-wider shrink-0 mr-1 flex items-center gap-1">
           <Sparkles className="w-3 h-3 text-primary" />
           Tag:
@@ -103,8 +103,8 @@ export default function IdeaForm() {
         ))}
       </div>
 
-      <form onSubmit={handleSubmit} className="relative group">
-        <div className="relative rounded-2xl bg-card border border-border group-focus-within:border-primary/50 group-focus-within:shadow-lg group-focus-within:shadow-primary-glow/20 transition-all duration-300 overflow-hidden">
+      <form onSubmit={handleSubmit} className="relative group flex-1 flex flex-col min-h-0">
+        <div className="relative rounded-2xl bg-card border border-border group-focus-within:border-primary/50 group-focus-within:shadow-lg group-focus-within:shadow-primary-glow/20 transition-all duration-300 overflow-hidden flex-1 flex flex-col min-h-0">
           <textarea
             ref={textareaRef}
             id="idea-input"
@@ -112,12 +112,12 @@ export default function IdeaForm() {
             onChange={(e) => setText(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Share an idea, question, or feature proposal..."
-            rows={3}
-            className="w-full bg-transparent p-4 pb-14 text-foreground placeholder:text-muted/70 resize-none focus:outline-none text-[15px] leading-relaxed"
+            rows={2}
+            className="w-full bg-transparent p-3 pb-12 text-foreground placeholder:text-muted/70 resize-none focus:outline-none text-sm leading-relaxed flex-1 min-h-[70px]"
           />
 
           {/* Bottom Toolbar inside textarea box */}
-          <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-3.5 py-2.5 bg-slate-50 border-t border-slate-200">
+          <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-3 py-2 bg-slate-50 border-t border-slate-200 shrink-0">
             <div className="flex items-center gap-2">
               {/* Progress mini bar */}
               <div className="w-12 h-1 bg-slate-200 rounded-full overflow-hidden">

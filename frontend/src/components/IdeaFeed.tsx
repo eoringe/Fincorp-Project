@@ -182,7 +182,7 @@ export default function IdeaFeed({ ideas, loading, error }: IdeaFeedProps) {
       <div
         ref={scrollContainerRef}
         onScroll={handleScroll}
-        className="flex-1 min-h-0 overflow-y-auto custom-scrollbar pr-1 space-y-3 pb-8 max-h-[calc(100vh-270px)] sm:max-h-[calc(100vh-250px)] lg:max-h-[calc(100vh-220px)]"
+        className="flex-1 min-h-0 overflow-y-auto custom-scrollbar pr-1 space-y-3 pb-4"
       >
         {ideas.length === 0 ? (
           <motion.div
